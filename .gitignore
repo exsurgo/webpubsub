@@ -4,3 +4,4 @@ TestResults/*
 _Resharper.*/*
 *.user
 *.suo
+/Resources/*
