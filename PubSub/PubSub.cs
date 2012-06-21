@@ -121,26 +121,7 @@ namespace WebPubSub
 
             #region WebSocket Events
 
-            private void NewMessageReceived(WebSocketSession session, string data)
-            {
-                var serializer = new JavaScriptSerializer();
-                var obj = (IncomingMessage)serializer.Deserialize(data, typeof(IncomingMessage));
-                var user = GetUserInfo(session);
-
-                //Subscribe
-                if (obj.Action == IncomingAction.Subscribe) SubscribeToChannel(obj.Channel, user);
-
-                //Unsubscribe
-                else if (obj.Action == IncomingAction.Unsubscribe) UnsubscribeToChannel(obj.Channel, user);
-
-                //Query
-                else if (obj.Action == IncomingAction.Query) ReturnUsersInChannel(obj.Channel, session);
-
-                //Publish
-                else PublishToChannel(OutgoingAction.Publish, obj.Channel, obj.Data, user);
-            }
-
-            private void NewSessionConnected(WebSocketSession session)
+            private void OnOpen(WebSocketSession session)
             {
                 //Get user's id
                 var user = GetUserInfo(session);
@@ -169,7 +150,26 @@ namespace WebPubSub
                 }
             }
 
-            private void SessionClosed(WebSocketSession session, CloseReason reason)
+            private void OnMessage(WebSocketSession session, string data)
+            {
+                var serializer = new JavaScriptSerializer();
+                var obj = (IncomingMessage)serializer.Deserialize(data, typeof(IncomingMessage));
+                var user = GetUserInfo(session);
+
+                //Subscribe
+                if (obj.Action == IncomingAction.Subscribe) SubscribeToChannel(obj.Channel, user);
+
+                //Unsubscribe
+                else if (obj.Action == IncomingAction.Unsubscribe) UnsubscribeToChannel(obj.Channel, user);
+
+                //Query
+                else if (obj.Action == IncomingAction.Query) ReturnUsersInChannel(obj.Channel, session);
+
+                //Publish
+                else PublishToChannel(OutgoingAction.Publish, obj.Channel, obj.Data, user);
+            }
+
+            private void OnClose(WebSocketSession session, CloseReason reason)
             {
                 //Do nothing if is shutdown
                 if (reason == CloseReason.ServerShutdown) return;
@@ -238,9 +238,9 @@ namespace WebPubSub
                                  Security = secure ? "tls" : null,
                                  Certificate = cert
                              }, SocketServerFactory.Instance);
-                _server.NewMessageReceived += NewMessageReceived;
-                _server.NewSessionConnected += NewSessionConnected;
-                _server.SessionClosed += SessionClosed;
+                _server.NewMessageReceived += OnMessage;
+                _server.NewSessionConnected += OnOpen;
+                _server.SessionClosed += OnClose;
                 _server.Start();
 
                 //Start flash socket policy server
