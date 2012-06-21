@@ -1,0 +1,45 @@
+﻿@{
+    ViewBag.Title = "Concurrency";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Scripts {
+    <script src="/Scripts/Concurrency.js" type="text/javascript"></script>
+}
+
+<h1>Concurrency</h1>
+
+<style>
+    input[disabled], select[disabled], textarea[disabled], button[disabled] { border: 2px solid #A0A0A0 !important; background-color: #EEEEEE !important; cursor: default !important; }
+</style>
+
+<div id="user-display" style="display: none; border: 1px solid #999999; padding: 3px; margin: 5px; background-color: lightsteelblue">
+    Other users are editing this form:&nbsp; <span style="font-weight: bold"></span>
+</div>
+
+<form action="/Concurrency" method="POST" style="border: 1px solid #aaaaaa">
+    
+    <p>
+        Title:<br/>
+        <input type="text" name="Title"/>
+    </p>
+    
+    <p>
+        Description:<br/>
+        <textarea type="text" name="Description"></textarea>
+    </p>
+    
+    <p>
+        Type:<br/>
+        <select name="Type">
+            <option>Type A</option>
+            <option>Type B</option>
+            <option>Type C</option>
+        </select>
+    </p>
+    
+    <p>
+        <input type="submit" value="Save" />
+    </p>
+    
+</form>
