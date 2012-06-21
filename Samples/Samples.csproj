@@ -58,6 +58,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
+    <Content Include="Images\Chat.jpg" />
+    <Content Include="Images\Concurrency.jpg" />
     <Content Include="Scripts\Concurrency.js" />
     <Content Include="Scripts\jquery.js" />
     <Content Include="Scripts\JSON.js" />
