@@ -1,6 +1,6 @@
 ﻿
 /* 
-*   PubSub Client 
+*   PubSub Client - v0.5
 *   
 *   PubSub.open(callback);
 *   PubSub.subscribe(channel, callback);
@@ -33,8 +33,7 @@ var PubSub = (function () {
         //Ensure open connection exists
         if (
                 !_websocket //Not yet created
-                || _websocket.readyState == 1 //Connection not yet established
-                || _websocket.readyState == 4 //Connection closed
+                || _websocket.readyState != 1 //Connection not yet established
            ) {
 
             //Ensure websocket URL is set

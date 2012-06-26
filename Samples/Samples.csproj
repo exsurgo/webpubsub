@@ -81,9 +81,9 @@
     <Content Include="Views\Samples\Concurrency.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\PubSub\PubSub.csproj">
+    <ProjectReference Include="..\PubSub\WebPubSub.csproj">
       <Project>{AB2EEBAC-55B7-4135-AC65-73FB383CDF7D}</Project>
-      <Name>PubSub</Name>
+      <Name>WebPubSub</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
